@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model ThoughtLog {
+  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdDate           DateTime  @default(now())
+  situation             String?
+  feelings              Feeling[]
+  unhelpfulThoughts     String[]
+  unhelpfulBehaviors    String[]
+  alternativeThoughts   String[]
+  alternativeBehaviours String[]
+  feelingsAfter         Feeling[]
+
+  @@map("thoughtLogs")
+}
+
+type Feeling {
+  type  FeelingType
+  desc  String
+  scale Int
+}
+
+enum FeelingType {
+  Emotional
+  Physical
+}
